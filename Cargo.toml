@@ -13,8 +13,8 @@ leptos_router = { version = "0.6", features = ["csr", "nightly"] }
 console_log = "1"
 log = "0.4"
 console_error_panic_hook = "0.1"
-nostr-signer = "0.31.0"
-nostr = "0.31.1"
+nostr-signer = "0.31"
+nostr = "0.31"
 web-sys = { version = "0.3.67", features = ["Document", "Window", "Notification", "NotificationAction", "DomParser", "SupportedType", "EventTarget", "Node"] }
 qrcode-generator = "4.1.9"
 leptos-struct-table = "0.9.1"
