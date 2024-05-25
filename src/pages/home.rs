@@ -1,4 +1,3 @@
-use leptos::leptos_dom::logging::console_log;
 use leptos::*;
 use nostr_signer::prelude::*;
 use qrcode_generator::QrCodeEcc;
@@ -36,11 +35,19 @@ pub fn Home() -> impl IntoView {
                     .map(char::from)
                     .collect();
                 let signer =
-                    NostrConnectRemoteSigner::new(keys.secret_key().unwrap().clone(), ["wss://sign.siamstr.com"], Some(random_pass), None)
+                    NostrConnectRemoteSigner::new(
+                    keys.secret_key().expect("valid nsec").clone(),
+                    ["wss://sign.siamstr.com"],
+                    Some(random_pass),
+                    None)
                         .await
                         .expect("remote signer initialized");
                 let uri = signer.nostr_connect_uri().await.to_string();
-                let result: String = qrcode_generator::to_svg_to_string(uri.clone(), QrCodeEcc::Low, 256, None::<&str>).unwrap();
+                let result: String = qrcode_generator::to_svg_to_string(uri.clone(),
+                    QrCodeEcc::Low,
+                    256,
+                    None::<&str>)
+                    .expect("QR svg");
 
                 bunker_uri.set(uri);
                 bunker_qr.set(result);
@@ -49,26 +56,42 @@ pub fn Home() -> impl IntoView {
                 }
             } else {
                 let signer =
-                    NostrConnectRemoteSigner::new(keys.secret_key().unwrap().clone(), ["wss://sign.siamstr.com"], None, None)
+                    NostrConnectRemoteSigner::new(
+                    keys.secret_key().expect("valid nsec").clone(),
+                    ["wss://sign.siamstr.com"],
+                    None,
+                    None)
                         .await
                         .expect("remote signer initialized");
                 let uri = signer.nostr_connect_uri().await.to_string();
-                let result: String = qrcode_generator::to_svg_to_string(uri.clone(), QrCodeEcc::Low, 256, None::<&str>).unwrap();
+                let result: String = qrcode_generator::to_svg_to_string(uri.clone(),
+                    QrCodeEcc::Low,
+                    256,
+                    None::<&str>)
+                    .expect("QR svg");
 
                 bunker_uri.set(uri);
                 bunker_qr.set(result);
                 loop {
-                signer.serve(NoPassAction).await.expect("serving");
+                    signer.serve(NoPassAction).await.expect("serving");
                 }
             }
         })
     };
     let trigger_show_event = move |_| {
-        let menu = web_sys::window().unwrap().document().unwrap().get_element_by_id("events-list").expect("element found");
+        let menu = window()
+            .document()
+            .expect("docs")
+            .get_element_by_id("events-list")
+            .expect("element found");
         let _ = menu.class_list().toggle("hidden");
     };
     let trigger_show_qr = move |_| {
-        let menu = web_sys::window().unwrap().document().unwrap().get_element_by_id("bunker-uri").expect("element found");
+        let menu = window()
+            .document()
+            .expect("docs")
+            .get_element_by_id("bunker-uri")
+            .expect("element found");
         let _ = menu.class_list().toggle("hidden");
     };
 
