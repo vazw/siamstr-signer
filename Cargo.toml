@@ -15,7 +15,9 @@ log = "0.4"
 console_error_panic_hook = "0.1"
 nostr-signer = "0.31.0"
 nostr = "0.31.1"
-web-sys = { version = "0.3.67", features = ["Document", "Window", "Notification", "NotificationAction"] }
+web-sys = { version = "0.3.67", features = ["Document", "Window", "Notification", "NotificationAction", "DomParser", "SupportedType", "EventTarget", "Node"] }
+qrcode-generator = "4.1.9"
+leptos-struct-table = "0.9.1"
 
 # utils
 # strum = { version = "0.25", features = ["derive", "strum_macros"] }
@@ -25,7 +27,7 @@ web-sys = { version = "0.3.67", features = ["Document", "Window", "Notification"
 [dev-dependencies]
 wasm-bindgen = "0.2.89"
 wasm-bindgen-test = "0.3"
-web-sys = { version = "0.3.67", features = ["Document", "Window", "Notification", "NotificationAction"] }
+web-sys = { version = "0.3.67", features = ["Document", "Window", "Notification", "NotificationAction", "DomParser", "SupportedType", "EventTarget", "Node"] }
 
 
 [profile.release]
